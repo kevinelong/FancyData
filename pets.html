@@ -3,26 +3,34 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="./pets.js"></script>
     <style>
-        body{
+        body {
             font-size: 3vw;
 
         }
+
         .card {
             width: 30vw;
             display: inline-block;
             vertical-align: top;
             min-height: 48vh;
         }
-        .card img{
+
+        .card img {
             height: 30vw;
             object-fit: cover;
         }
-        .card-text{
+
+        .card-text {
             font-size: 1rem;
         }
     </style>
 </head>
+
 <body>
+    <label for="petType">
+        Select Pet Type:
+        <select id="petType"></select>
+    </label>
     <div id="petCardList"></div>
     <!-- <div class="card" style="width: 18rem;">
         <img src="..." class="card-img-top" alt="...">
@@ -35,27 +43,28 @@
     </div> -->
 </body>
 <script>
-    petCardList.innerText = pets.length
-    function cardTitle(text){
+
+    // petCardList.innerText = pets.length
+    function cardTitle(text) {
         const e = document.createElement("h5");
         e.classList.add("card-title");
         e.innerText = text;
         return e;
     }
-    function cardText(text){
+    function cardText(text) {
         const e = document.createElement("p");
         e.classList.add("card-text");
         e.innerText = text;
         return e;
     }
-    function cardBody(title, text){
+    function cardBody(title, text) {
         const e = document.createElement("div");
         e.classList.add("card-body");
         e.appendChild(cardTitle(title));
         e.appendChild(cardText(text));
         return e;
     }
-    function cardImage(src){
+    function cardImage(src) {
         const img = document.createElement("img");
         img.classList.add("card-img-top");
         //WANT img.src = "./pet-images/rubby.jpg"
@@ -72,9 +81,22 @@
         return card;
     }
 
-    //array1.forEach((element) => console.log(element));
-    pets.forEach(p => petCardList.appendChild(getCard(p)));
-    // petCardList.appendChild(getCard(pets[0]));
+    function drawList(pt) {
+        petCardList.innerHTML = "";
+        const subset = pets.filter(p => p.type === pt);
+        subset.forEach(p => petCardList.appendChild(getCard(p)));
+    }
+
+    const petTypeList = ["Select One", "Cat", "Dog"];
+    function getOption(text) {
+        const e = document.createElement("option");
+        e.innerText = text;
+        return e;
+    }
+    petTypeList.forEach(pt => petType.appendChild(getOption(pt)));
+    
+    petType.addEventListener("change", e => drawList(e.target.value));
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
